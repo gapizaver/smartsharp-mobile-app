@@ -114,10 +114,7 @@ class _LedInputWidget extends State<LedInputWidget> {
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
               ),
-              onPressed: () {
-                //http.get(Uri.http('192.168.64.123:8000', 'sega'));
-                http.get(Uri.http('192.168.4.1', 'lock'));
-              },
+              onPressed: () {},
               child: const Text("Change LED1"),
             ),
           ],
