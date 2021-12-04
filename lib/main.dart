@@ -18,7 +18,10 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         appBar: AppBar(title: const Text('Smartsharp')),
+
+        // lock, unlock row
         body: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton(
               style: ButtonStyle(
@@ -29,7 +32,10 @@ class MyApp extends StatelessWidget {
                 //http.get(Uri.http('192.168.64.123:8000', 'sega'));
                 http.get(Uri.http('192.168.4.1', 'lock'));
               },
-              child: const Text("Lock"),
+              child: const Icon(
+                Icons.lock,
+                color: Colors.white,
+              ),
             ),
             TextButton(
               style: ButtonStyle(
@@ -39,7 +45,10 @@ class MyApp extends StatelessWidget {
               onPressed: () {
                 http.get(Uri.http('192.168.4.1', 'unlock'));
               },
-              child: const Text("Unlock"),
+              child: const Icon(
+                Icons.lock_open,
+                color: Colors.white,
+              ),
             ),
           ],
         ),
