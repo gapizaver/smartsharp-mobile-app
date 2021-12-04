@@ -56,8 +56,10 @@ class MyApp extends StatelessWidget {
               ),
             ],
           ),
+          // LED0 row
+          const LedInputWidget(ledId: 0),
           // LED1 row
-          const LedInputWidget(),
+          const LedInputWidget(ledId: 1),
         ]),
       ),
     );
@@ -66,7 +68,8 @@ class MyApp extends StatelessWidget {
 
 // stateful widget for led color input
 class LedInputWidget extends StatefulWidget {
-  const LedInputWidget({Key? key}) : super(key: key);
+  final int ledId;
+  const LedInputWidget({Key? key, required this.ledId}) : super(key: key);
 
   @override
   State<LedInputWidget> createState() => _LedInputWidget();
@@ -87,8 +90,8 @@ class _LedInputWidget extends State<LedInputWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text(
-              'LED1 RGB [0-255]',
+            Text(
+              'LED' + widget.ledId.toString() + ' RGB [0-255]',
             ),
             Wrap(
               children: List<Widget>.generate(3, (int index) {
@@ -115,7 +118,7 @@ class _LedInputWidget extends State<LedInputWidget> {
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
               ),
               onPressed: () {},
-              child: const Text("Change LED1"),
+              child: Text("Change LED" + widget.ledId.toString()),
             ),
           ],
         ),
