@@ -99,4 +99,36 @@ class APIRequest {
       debugPrint("Connection failed: $e");
     }
   }
+
+  static void runMotor(context, String s, String ms) async {
+    // request Smartsharp to unlock
+    http.Response response;
+    try {
+      // http request
+      response = await http.get(
+          Uri.http('192.168.4.1', 'runmotor', {"seconds": s, "milis": ms}));
+
+      // debug print resplonse code
+      if (response.statusCode == 200) {
+        debugPrint("Request succeed");
+        // display pop up message
+        var msg = const Message(text: "Smartsharp motor run");
+        ScaffoldMessenger.of(context).showSnackBar(msg.build(context));
+      } else {
+        debugPrint("Request failed with status ${response.statusCode}");
+        // display pop up message
+        var msg = const Message(text: "Request to run motor failed");
+        ScaffoldMessenger.of(context).showSnackBar(msg.build(context));
+      }
+    } on SocketException {
+      debugPrint(
+          "Unable to connect to Smartsharp. Make sure you are connected to the Smartsharp network");
+      var msg = const Message(
+          text:
+              "Unable to connect to Smartsharp. Make sure you are connected to the Smartsharp network");
+      ScaffoldMessenger.of(context).showSnackBar(msg.build(context));
+    } catch (e) {
+      debugPrint("Connection failed: $e");
+    }
+  }
 }

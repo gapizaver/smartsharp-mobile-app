@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_sharp/widgets/inputs/motorinput.dart';
 
 import 'widgets/buttons/lock.dart';
 import 'widgets/buttons/unlock.dart';
@@ -48,6 +49,8 @@ class _MyScaffoldState extends State<MyScaffold> {
         const LedInputWidget(ledId: 0),
         // LED1 form input
         const LedInputWidget(ledId: 1),
+        // run motor input
+        const MotorInputWidget(),
       ]),
     );
   }
