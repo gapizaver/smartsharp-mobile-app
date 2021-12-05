@@ -37,21 +37,23 @@ class _MyScaffoldState extends State<MyScaffold> {
     return Scaffold(
       appBar: AppBar(title: const Text('Smartsharp')),
       body: Column(children: [
-        // lock, unlock row
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: const [
-            LockButton(),
-            UnlockButton(),
-          ],
-        ),
         // LED0 form input
         const LedInputWidget(ledId: 0),
         // LED1 form input
         const LedInputWidget(ledId: 1),
         // run motor input
         const MotorInputWidget(),
-      ]),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 40.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: const [
+              LockButton(),
+              UnlockButton(),
+            ],
+          ),
+        ),
+      ]), // lock, unlock row
     );
   }
 }
