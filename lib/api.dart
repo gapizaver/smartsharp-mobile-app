@@ -66,4 +66,37 @@ class APIRequest {
       debugPrint("Connection failed: $e");
     }
   }
+
+  static void setLed(
+      context, String ledId, String r, String g, String b) async {
+    // request Smartsharp to unlock
+    http.Response response;
+    try {
+      // http request
+      response = await http.get(Uri.http(
+          '192.168.4.1', 'ledrgb', {"r": r, "g": g, "b": b, "led": ledId}));
+
+      // debug print resplonse code
+      if (response.statusCode == 200) {
+        debugPrint("Request succeed");
+        // display pop up message
+        var msg = const Message(text: "Smartsharp led set");
+        ScaffoldMessenger.of(context).showSnackBar(msg.build(context));
+      } else {
+        debugPrint("Request failed with status ${response.statusCode}");
+        // display pop up message
+        var msg = const Message(text: "Request to set led Smartsharp failed");
+        ScaffoldMessenger.of(context).showSnackBar(msg.build(context));
+      }
+    } on SocketException {
+      debugPrint(
+          "Unable to connect to Smartsharp. Make sure you are connected to the Smartsharp network");
+      var msg = const Message(
+          text:
+              "Unable to connect to Smartsharp. Make sure you are connected to the Smartsharp network");
+      ScaffoldMessenger.of(context).showSnackBar(msg.build(context));
+    } catch (e) {
+      debugPrint("Connection failed: $e");
+    }
+  }
 }

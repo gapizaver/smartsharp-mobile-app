@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_sharp/api.dart';
 
 // stateful widget for led color input
 class LedInputWidget extends StatefulWidget {
@@ -11,6 +12,7 @@ class LedInputWidget extends StatefulWidget {
 
 class _LedInputWidget extends State<LedInputWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  var rgb = ["0", "0", "0"];
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,10 @@ class _LedInputWidget extends State<LedInputWidget> {
                       },*/
                       decoration: InputDecoration(labelText: _list[index % 3]),
                       keyboardType: TextInputType.number,
+                      onChanged: (String val) {
+                        rgb[index] = val;
+                        debugPrint("rgb " + rgb[0] + rgb[1] + rgb[2]);
+                      },
                     ),
                   ),
                 );
@@ -51,7 +57,10 @@ class _LedInputWidget extends State<LedInputWidget> {
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
               ),
-              onPressed: () {},
+              onPressed: () {
+                APIRequest.setLed(
+                    context, widget.ledId.toString(), rgb[0], rgb[1], rgb[2]);
+              },
               child: Text("Change LED" + widget.ledId.toString()),
             ),
           ],

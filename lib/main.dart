@@ -44,9 +44,9 @@ class _MyScaffoldState extends State<MyScaffold> {
             UnlockButton(),
           ],
         ),
-        // LED0 row
+        // LED0 form input
         const LedInputWidget(ledId: 0),
-        // LED1 row
+        // LED1 form input
         const LedInputWidget(ledId: 1),
       ]),
     );
