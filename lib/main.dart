@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:smart_sharp/widgets/message.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,72 +15,126 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Smartsharp',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Smartsharp')),
-        body: Column(children: [
-          // lock, unlock row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TextButton(
-                style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.blue),
-                ),
-                onPressed: () async {
-                  // request Smartsharp to lock
-                  http.Response response;
-                  try {
-                    response = await http.get(Uri.http('192.168.4.1', 'lock'));
+        title: 'Smartsharp',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const MyScaffold());
+  }
+}
 
-                    // debug print resplonse code
-                    if (response.statusCode == 200) {
-                      debugPrint("Request succeed");
-                    } else {
-                      debugPrint(
-                          "Request failed with status ${response.statusCode}");
-                    }
-                  } on SocketException {
+class MyScaffold extends StatefulWidget {
+  const MyScaffold({Key? key}) : super(key: key);
+
+  @override
+  _MyScaffoldState createState() => _MyScaffoldState();
+}
+
+class _MyScaffoldState extends State<MyScaffold> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Smartsharp')),
+      body: Column(children: [
+        // lock, unlock row
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              ),
+              onPressed: () async {
+                // request Smartsharp to lock
+                http.Response response;
+                try {
+                  response = await http.get(Uri.http('192.168.4.1', 'lock'));
+
+                  // debug print resplonse code
+                  if (response.statusCode == 200) {
+                    debugPrint("Request succeed");
+                    // display pop up message
+                    var msg = const Message(text: "Smartsharp locked");
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(msg.build(context));
+                  } else {
                     debugPrint(
-                        "Unable to connect to Smartsharp. Make sure you are connected to the Smartsharp network");
-                  } catch (e) {
-                    debugPrint("Connection failed: $e");
+                        "Request failed with status ${response.statusCode}");
+                    // display pop up message
+                    var msg = const Message(
+                        text: "Request to lock Smartsharp failed");
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(msg.build(context));
                   }
-                },
-                child: const Icon(
-                  Icons.lock,
-                  color: Colors.white,
-                ),
+                } on SocketException {
+                  debugPrint(
+                      "Unable to connect to Smartsharp. Make sure you are connected to the Smartsharp network");
+                  var msg = const Message(
+                      text:
+                          "Unable to connect to Smartsharp. Make sure you are connected to the Smartsharp network");
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(msg.build(context));
+                } catch (e) {
+                  debugPrint("Connection failed: $e");
+                }
+              },
+              child: const Icon(
+                Icons.lock,
+                color: Colors.white,
               ),
-              TextButton(
-                style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.blue),
-                ),
-                onPressed: () {
-                  http.get(Uri.http('192.168.4.1', 'unlock'));
-                },
-                child: const Icon(
-                  Icons.lock_open,
-                  color: Colors.white,
-                ),
+            ),
+            TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
               ),
-            ],
-          ),
-          // LED0 row
-          const LedInputWidget(ledId: 0),
-          // LED1 row
-          const LedInputWidget(ledId: 1),
-        ]),
-      ),
+              onPressed: () async {
+                // request Smartsharp to lock
+                http.Response response;
+                try {
+                  response = await http.get(Uri.http('192.168.4.1', 'unlock'));
+
+                  // debug print resplonse code
+                  if (response.statusCode == 200) {
+                    debugPrint("Request succeed");
+                    // display pop up message
+                    var msg = const Message(text: "Smartsharp locked");
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(msg.build(context));
+                  } else {
+                    debugPrint(
+                        "Request failed with status ${response.statusCode}");
+                    // display pop up message
+                    var msg = const Message(
+                        text: "Request to unlock Smartsharp failed");
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(msg.build(context));
+                  }
+                } on SocketException {
+                  debugPrint(
+                      "Unable to connect to Smartsharp. Make sure you are connected to the Smartsharp network");
+                  var msg = const Message(
+                      text:
+                          "Unable to connect to Smartsharp. Make sure you are connected to the Smartsharp network");
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(msg.build(context));
+                } catch (e) {
+                  debugPrint("Connection failed: $e");
+                }
+              },
+              child: const Icon(
+                Icons.lock_open,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        // LED0 row
+        const LedInputWidget(ledId: 0),
+        // LED1 row
+        const LedInputWidget(ledId: 1),
+      ]),
     );
   }
 }
