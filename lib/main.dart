@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -30,9 +32,25 @@ class MyApp extends StatelessWidget {
                   backgroundColor:
                       MaterialStateProperty.all<Color>(Colors.blue),
                 ),
-                onPressed: () {
-                  //http.get(Uri.http('192.168.64.123:8000', 'sega'));
-                  http.get(Uri.http('192.168.4.1', 'lock'));
+                onPressed: () async {
+                  // request Smartsharp to lock
+                  http.Response response;
+                  try {
+                    response = await http.get(Uri.http('192.168.4.1', 'lock'));
+
+                    // debug print resplonse code
+                    if (response.statusCode == 200) {
+                      debugPrint("Request succeed");
+                    } else {
+                      debugPrint(
+                          "Request failed with status ${response.statusCode}");
+                    }
+                  } on SocketException {
+                    debugPrint(
+                        "Unable to connect to Smartsharp. Make sure you are connected to the Smartsharp network");
+                  } catch (e) {
+                    debugPrint("Connection failed: $e");
+                  }
                 },
                 child: const Icon(
                   Icons.lock,
