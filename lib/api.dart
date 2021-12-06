@@ -131,4 +131,36 @@ class APIRequest {
       debugPrint("Connection failed: $e");
     }
   }
+
+  static void changeMode(context, String mode) async {
+    // request Smartsharp to unlock
+    http.Response response;
+    try {
+      // http request
+      response =
+          await http.get(Uri.http('192.168.4.1', 'ledmode', {"mode": mode}));
+
+      // debug print resplonse code
+      if (response.statusCode == 200) {
+        debugPrint("Request succeed");
+        // display pop up message
+        var msg = const Message(text: "Smartsharp mode changed");
+        ScaffoldMessenger.of(context).showSnackBar(msg.build(context));
+      } else {
+        debugPrint("Request failed with status ${response.statusCode}");
+        // display pop up message
+        var msg = const Message(text: "Request to change mode failed");
+        ScaffoldMessenger.of(context).showSnackBar(msg.build(context));
+      }
+    } on SocketException {
+      debugPrint(
+          "Unable to connect to Smartsharp. Make sure you are connected to the Smartsharp network");
+      var msg = const Message(
+          text:
+              "Unable to connect to Smartsharp. Make sure you are connected to the Smartsharp network");
+      ScaffoldMessenger.of(context).showSnackBar(msg.build(context));
+    } catch (e) {
+      debugPrint("Connection failed: $e");
+    }
+  }
 }

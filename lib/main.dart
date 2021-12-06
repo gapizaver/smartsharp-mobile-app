@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_sharp/widgets/inputs/ledmode_dropdown.dart';
 import 'package:smart_sharp/widgets/inputs/motorinput.dart';
 
 import 'widgets/buttons/lock.dart';
@@ -37,6 +38,8 @@ class _MyScaffoldState extends State<MyScaffold> {
     return Scaffold(
       appBar: AppBar(title: const Text('Smartsharp')),
       body: Column(children: [
+        // LED mode input
+        const LedModeDropdown(),
         // LED0 form input
         const LedInputWidget(ledId: 0),
         // LED1 form input
