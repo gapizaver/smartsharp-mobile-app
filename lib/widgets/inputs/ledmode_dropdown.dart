@@ -9,7 +9,7 @@ class LedModeDropdown extends StatefulWidget {
 }
 
 class _LedModeDropdownState extends State<LedModeDropdown> {
-  String dropdownValue = "0";
+  String dropdownValue = "Mode 0";
 
   @override
   Widget build(BuildContext context) {
