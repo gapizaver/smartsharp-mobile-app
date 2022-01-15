@@ -6,11 +6,14 @@ import 'package:flutter/material.dart';
 import 'widgets/message.dart';
 
 class APIRequest {
+  // Smartsharp's ip
+  static const ssip = '192.168.4.1';
+
   static void lock(context) async {
-    // request Smartsharp to lock
+    // request Smartsharp to locks
     http.Response response;
     try {
-      response = await http.get(Uri.http('192.168.4.1', 'lock'));
+      response = await http.get(Uri.http(ssip, 'lock'));
 
       // debug print resplonse code
       if (response.statusCode == 200) {
@@ -41,7 +44,7 @@ class APIRequest {
     http.Response response;
     try {
       // http request
-      response = await http.get(Uri.http('192.168.4.1', 'unlock'));
+      response = await http.get(Uri.http(ssip, 'unlock'));
 
       // debug print resplonse code
       if (response.statusCode == 200) {
@@ -73,8 +76,8 @@ class APIRequest {
     http.Response response;
     try {
       // http request
-      response = await http.get(Uri.http(
-          '192.168.4.1', 'ledrgb', {"r": r, "g": g, "b": b, "led": ledId}));
+      response = await http.get(
+          Uri.http(ssip, 'ledrgb', {"r": r, "g": g, "b": b, "led": ledId}));
 
       // debug print resplonse code
       if (response.statusCode == 200) {
@@ -105,8 +108,8 @@ class APIRequest {
     http.Response response;
     try {
       // http request
-      response = await http.get(
-          Uri.http('192.168.4.1', 'runmotor', {"seconds": s, "milis": ms}));
+      response = await http
+          .get(Uri.http(ssip, 'runmotor', {"seconds": s, "milis": ms}));
 
       // debug print resplonse code
       if (response.statusCode == 200) {
@@ -137,8 +140,7 @@ class APIRequest {
     http.Response response;
     try {
       // http request
-      response =
-          await http.get(Uri.http('192.168.4.1', 'ledmode', {"mode": mode}));
+      response = await http.get(Uri.http(ssip, 'ledmode', {"mode": mode}));
 
       // debug print resplonse code
       if (response.statusCode == 200) {
